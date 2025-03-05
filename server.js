@@ -3,9 +3,11 @@ import 'colors'
 import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import path from 'path'
 
 import authRoutes from './app/auth/auth.routes.js'
 import userRoutes from './app/user/user.routes.js'
+import exerciseRoutes from './app/exercise/exercise.routes.js'
 import projectsRoutes from './app/projects/projects.routes.js'
 import { prisma } from './app/prisma.js'
 import { errorHandler, notFound } from './app/middleware/error.middleware.js'
@@ -22,9 +24,14 @@ async function main() {
 	app.use(cors())
 	app.use(express.json())
 
+	const __dirname = path.resolve()
+
+	app.use('/uploads', express.static(path.join(__dirname, '/uploads/')))
+
 	app.use('/api/auth', authRoutes)
 	app.use('/api/projects', projectsRoutes)
 	app.use('/api/users', userRoutes)
+	app.use('/api/exercises', exerciseRoutes)
 
 	app.use(notFound)
 	app.use(errorHandler)
