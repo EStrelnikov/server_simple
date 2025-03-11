@@ -9,6 +9,9 @@ import {
 	getWorkouts,
 	updateWorkout
 } from './workout.controller.js'
+import { createNewWorkoutLog } from './log/workout-log.controller.js'
+import { getWorkoutLog } from './log/get-workout-log.controller.js'
+import { updateCompleteWorkoutLog } from './log/update-workout-log.controller.js'
 
 const router = express.Router()
 
@@ -18,5 +21,12 @@ router
 	.get(protect, getWorkout)
 	.put(protect, updateWorkout)
 	.delete(protect, deleteWorkout)
+
+router
+	.route('/log/:id')
+	.post(protect, createNewWorkoutLog)
+	.get(protect, getWorkoutLog)
+
+router.route('/log/complete/:id').patch(protect, updateCompleteWorkoutLog)
 
 export default router
